@@ -17,7 +17,7 @@ set(EIGEN_BUILD_TESTING OFF CACHE BOOL "" FORCE)
 set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(Eigen)
 
-add_executable(tracker src/main.cpp)
+add_executable(tracker src/main.cpp src/boat_simulator.cpp src/gps_sensor.cpp)
 target_link_libraries(tracker PRIVATE Eigen3::Eigen)
 target_include_directories(tracker PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_compile_options(tracker PRIVATE -Wall -Wextra -Wpedantic)
