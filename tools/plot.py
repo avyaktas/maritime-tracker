@@ -25,3 +25,19 @@ plt.legend()
 plt.grid(alpha=0.3)
 plt.savefig("output/track.png", dpi=150, bbox_inches="tight")
 print("Wrote output/track.png")
+
+#Error Summary
+import math
+gps_err = [math.hypot(mx - tx, my - ty) for mx, my, tx, ty in zip(meas_x, meas_y, true_x, true_y)]
+est_err = [math.hypot(ex - tx, ey - ty) for ex, ey, tx, ty in zip(est_x, est_y, true_x, true_y)]
+
+def rmse(errs):
+    return math.sqrt(sum(e * e for e in errs) / len(errs))
+
+#skip the first 2s while the initial covariance collapses
+warmup = 20
+print(f"RMSE raw GPS:   {rmse(gps_err[warmup:]):.2f} m")
+print(f"RMSE filtered:  {rmse(est_err[warmup:]):.2f} m")
+print(f"Improvement:    {rmse(gps_err[warmup:]) / rmse(est_err[warmup:]):.1f}x")
+
+
